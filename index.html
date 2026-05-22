@@ -8,14 +8,16 @@
 <style>
 html, body {
   margin: 0;
+  width: 100%;
   height: 100%;
-  background: black;
   overflow: hidden;
+  background: black;
 }
 
+/* IMPORTANT: no flex, no centering, no extra scaling */
 #container {
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  inset: 0;
 }
 </style>
 </head>
@@ -24,17 +26,18 @@ html, body {
 
 <div id="container"></div>
 
-<!-- stable Ruffle build -->
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
 <script>
 window.addEventListener("load", () => {
+
     const ruffle = window.RufflePlayer.newest();
     const player = ruffle.createPlayer();
 
     const container = document.getElementById("container");
     container.appendChild(player);
 
+    // IMPORTANT: let Ruffle control sizing ONLY
     player.style.width = "100%";
     player.style.height = "100%";
 
