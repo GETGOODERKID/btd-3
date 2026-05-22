@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloons Tower Defense 3</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BTD3</title>
 
-    <!-- Ruffle (Flash emulator) -->
-    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
-    <style>
-        /* FULLSCREEN EMBED STYLE */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: black;
-        }
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+}
 
-        /* Game fills entire screen */
-        #game {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-        }
+/* Fullscreen container */
+#game {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+}
 
-        /* Make sure canvas fills container */
-        ruffle-player, canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-    </style>
+/* FORCE EVERYTHING TO STRETCH */
+#game * {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Ruffle canvas override (THIS is what removes bars) */
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill !important;
+    display: block;
+}
+</style>
 </head>
 
 <body>
@@ -43,19 +49,18 @@
 <script>
 window.addEventListener("load", () => {
 
-    // Create Ruffle player
     const ruffle = window.RufflePlayer.newest();
     const player = ruffle.createPlayer();
 
-    // Attach to page
     const container = document.getElementById("game");
     container.appendChild(player);
 
-    // Fullscreen sizing
+    // FORCE FULL STRETCH
+    player.style.position = "fixed";
+    player.style.inset = "0";
     player.style.width = "100%";
     player.style.height = "100%";
 
-    // Load your SWF
     player.load("game.swf").catch(err => {
         console.error("Failed to load SWF:", err);
     });
