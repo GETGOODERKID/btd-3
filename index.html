@@ -2,69 +2,53 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BTD3</title>
-
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Game</title>
 
 <style>
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
 }
 
-/* Fullscreen container */
-#game {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background: black;
+#container {
+  width: 100vw;
+  height: 100vh;
 }
 
-/* FORCE EVERYTHING TO STRETCH */
-#game * {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-/* Ruffle canvas override (THIS is what removes bars) */
-canvas {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: fill !important;
-    display: block;
+ruffle-player, canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 </style>
+
+<script src="ruffle.js"></script>
 </head>
 
 <body>
 
-<div id="game"></div>
+<div id="container"></div>
 
 <script>
-window.addEventListener("load", () => {
+window.RufflePlayer = window.RufflePlayer || {};
 
+window.addEventListener("load", () => {
     const ruffle = window.RufflePlayer.newest();
     const player = ruffle.createPlayer();
 
-    const container = document.getElementById("game");
-    container.appendChild(player);
-
-    // FORCE FULL STRETCH
-    player.style.position = "fixed";
-    player.style.inset = "0";
     player.style.width = "100%";
     player.style.height = "100%";
+
+    document.getElementById("container").appendChild(player);
 
     player.load("game.swf").catch(err => {
         console.error("Failed to load SWF:", err);
     });
-
 });
 </script>
 
