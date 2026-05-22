@@ -3,83 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloons Tower Defense 3</title>
+    <title>BTD3</title>
 
-    <script src="ruffle.js"></script>
+    <!-- Correct Ruffle (IMPORTANT) -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
     <style>
         html, body {
             margin: 0;
-            padding: 0;
-            width: 100%;
             height: 100%;
-            overflow: hidden;
             background: black;
-
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
-        #game-container {
+        #game {
             width: 800px;
             height: 600px;
-        }
-
-        canvas {
-            display: block;
         }
     </style>
 </head>
 
 <body>
 
-<div id="game-container"></div>
+<div id="game"></div>
 
 <script>
-window.RufflePlayer = window.RufflePlayer || {};
-
 window.addEventListener("load", () => {
 
-    const ruffle = window.RufflePlayer.newest();
+    // Correct modern Ruffle way (FIXES YOUR ERROR)
+    const ruffle = window.RufflePlayer?.newest?.() || window.RufflePlayer;
     const player = ruffle.createPlayer();
 
     player.style.width = "100%";
     player.style.height = "100%";
 
-    document.getElementById("game-container").appendChild(player);
+    document.getElementById("game").appendChild(player);
 
-    player.load("game.swf")
-        .then(() => {
-            console.log("Game loaded!");
-        })
-        .catch((err) => {
-            console.error("Failed to load SWF:", err);
-        });
-
-    resizeGame();
-
-    window.addEventListener("resize", resizeGame);
+    // Load your SWF
+    player.load("game.swf").catch(console.error);
 });
-
-function resizeGame() {
-
-    const container = document.getElementById("game-container");
-
-    const gameWidth = 800;
-    const gameHeight = 600;
-
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-
-    const scale = Math.min(
-        windowWidth / gameWidth,
-        windowHeight / gameHeight
-    );
-
-    container.style.width = (gameWidth * scale) + "px";
-    container.style.height = (gameHeight * scale) + "px";
-}
 </script>
 
 </body>
